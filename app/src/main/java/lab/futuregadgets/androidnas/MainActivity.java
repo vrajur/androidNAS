@@ -34,31 +34,33 @@ public class MainActivity extends AppCompatActivity {
         requestPermissions(new String[] {Manifest.permission.INTERNET}, 1);
 
         TextView textView = findViewById(R.id.textview);
-        AsyncTask<String, Void, Long> task = new MyAsyncTask();
+        AsyncTask<String, Void, String[]> task = new MyAsyncTask(this);
 
 
         String url = "file://home/vinay/Documents/Data/UnifiedLogger/All-Data/GpsLog_2018-07-28_17-11-43.txt";
         task.execute(url);
 
-        while(task.getStatus() != AsyncTask.Status.FINISHED) {
-            AsyncTask.Status status = task.getStatus();
-
-            switch (status) {
-                case PENDING:
-                    textView.setText("Task is PENDING");
-                    break;
-                case RUNNING:
-                    textView.setText("Task is RUNNING");
-                    break;
-                case FINISHED:
-                    textView.setText("Task is FINISHED");
-                    break;
-            }
-        }
+//        while(task.getStatus() != AsyncTask.Status.FINISHED) {
+//            AsyncTask.Status status = task.getStatus();
+////            Log.d("Status Update", "Status: " + status);
+//
+//            switch (status) {
+//                case PENDING:
+//                    textView.setText("Task is PENDING");
+//                    break;
+//                case RUNNING:
+//                    textView.setText("Task is RUNNING");
+//                    break;
+//                case FINISHED:
+//                    textView.setText("Task is FINISHED");
+//                    break;
+//            }
+////            Log.d("MainActivity", "Task is not finished yet");
+//        }
 
         try {
-            Long size = task.get();
-            textView.setText("File size is: " + size);
+            String[] strings = task.get();
+            textView.setText("File size is: " + strings.toString());
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
